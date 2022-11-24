@@ -2,6 +2,7 @@ import { asyncRoutes, constantRoutes } from '@/router'
 
 /**
  * Use meta.role to determine if the current user has permission
+ *  some(): 用于检测数组中的元素是否满足指定条件，即roles数组中是否有元素在route.meta.roles中
  * @param roles
  * @param route
  */
@@ -35,8 +36,8 @@ export function filterAsyncRoutes(routes, roles) {
 }
 
 const state = {
-  routes: [],
-  addRoutes: []
+  routes: [], // 用户的所有路由：静态+动态
+  addRoutes: [] // 动态路由
 }
 
 const mutations = {
@@ -50,9 +51,11 @@ const actions = {
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
       let accessedRoutes
+      // admin管理员账号，关联所有动态路由
       if (roles.includes('admin')) {
         accessedRoutes = asyncRoutes || []
       } else {
+        // 不是admin账号，根据roles和动态路由进行匹配
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
       }
       commit('SET_ROUTES', accessedRoutes)

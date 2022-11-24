@@ -26,16 +26,21 @@ module.exports = {
    */
   publicPath: '/',
   outputDir: 'dist',
+  // 放置生成的静态资源(js、css、img、fonts)的相对于outputDir的目录
   assetsDir: 'static',
+  // 是否在开发环境下通过 eslint-loader 在每次保存时 lint 代码。
   lintOnSave: process.env.NODE_ENV === 'development',
+  // 不需要生产环境的 source map，以加速生产环境构建。
   productionSourceMap: false,
   devServer: {
     port: port,
     open: true,
+    // 当出现编译错误或警告时，在浏览器中显示全屏覆盖。
     overlay: {
       warnings: false,
       errors: true
     },
+    // 提供在服务器内部首先执行自定义中间件的能力。采用此方法来模拟后台数据接口
     before: require('./mock/mock-server.js')
   },
   configureWebpack: {
@@ -43,6 +48,7 @@ module.exports = {
     // it can be accessed in index.html to inject the correct title.
     name: name,
     resolve: {
+      // 别名
       alias: {
         '@': resolve('src')
       }
@@ -64,20 +70,20 @@ module.exports = {
     // when there are many pages, it will cause too many meaningless requests
     config.plugins.delete('prefetch')
 
-    // set svg-sprite-loader
+    // set svg-sprite-loader，新增将svg图片以雪碧图的方式在项目中加载
     config.module
       .rule('svg')
-      .exclude.add(resolve('src/icons'))
+      .exclude.add(resolve('src/icons'))  // 已有svg规则中排除src/icons目录
       .end()
     config.module
       .rule('icons')
-      .test(/\.svg$/)
-      .include.add(resolve('src/icons'))
+      .test(/\.svg$/) // 匹配.svg文件
+      .include.add(resolve('src/icons')) // 匹配src/icons路径
       .end()
       .use('svg-sprite-loader')
-      .loader('svg-sprite-loader')
+      .loader('svg-sprite-loader')  // 使用svg-sprite-loader插件
       .options({
-        symbolId: 'icon-[name]'
+        symbolId: 'icon-[name]' // 参数配置
       })
       .end()
 

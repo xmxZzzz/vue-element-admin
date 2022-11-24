@@ -389,6 +389,7 @@ export const asyncRoutes = [
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
+  // 当切换到新路由时，页面滚动到顶部
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
