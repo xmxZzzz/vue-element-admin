@@ -70,7 +70,12 @@ module.exports = {
     // when there are many pages, it will cause too many meaningless requests
     config.plugins.delete('prefetch')
 
-    // set svg-sprite-loader，新增将svg图片以雪碧图的方式在项目中加载
+    /*
+        set svg-sprite-loader，新增将svg图片以雪碧图的方式在项目中加载
+          1、默认`vue-cli` 对svg做的处理：正则匹配后缀名为.svg的文件，匹配成功之后使用 url-loader 进行处理。
+            又因为可能有些svg作为图片资源，所以只能在默认的规则中排除自定义的svg图标目录，而对于指定目录src/icons，
+            则使用svg-sprite-loader
+     */
     config.module
       .rule('svg')
       .exclude.add(resolve('src/icons'))  // 已有svg规则中排除src/icons目录

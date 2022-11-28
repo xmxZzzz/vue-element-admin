@@ -21,6 +21,12 @@
         />
       </el-form-item>
 
+      <!--
+        大写输入密码时，在右侧提示大写锁定已打开
+            @keyup: 按键松开，当输入的是A-Z则提示大写锁定已打开
+            @keyup.enter：回车键松开，登录
+            @blur: 当元素失去焦点时，重置capsTooltip，即默认不展示提示
+      -->
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
@@ -56,13 +62,13 @@
           <span style="margin-right:18px;">Username : editor</span>
           <span>Password : any</span>
         </div>
-
+        <!-- 第三方登录按钮-->
         <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
           Or connect with
         </el-button>
       </div>
     </el-form>
-
+    <!--  第三方登录按弹窗  -->
     <el-dialog title="Or connect with" :visible.sync="showDialog">
       Can not be simulated on local, so please combine you own business simulation! ! !
       <br>
@@ -148,6 +154,7 @@ export default {
       } else {
         this.passwordType = 'password'
       }
+      // 将光标移至password
       this.$nextTick(() => {
         this.$refs.password.focus()
       })
@@ -170,6 +177,7 @@ export default {
         }
       })
     },
+    // 获取除redirect之外的参数
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
         if (cur !== 'redirect') {
@@ -208,6 +216,7 @@ $bg:#283443;
 $light_gray:#fff;
 $cursor: #fff;
 
+/* 将el-input全部置为#fff白色*/
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
     color: $cursor;
@@ -219,6 +228,7 @@ $cursor: #fff;
   .el-input {
     display: inline-block;
     height: 47px;
+    /* 指定可输入部分的宽度*/
     width: 85%;
 
     input {
@@ -306,6 +316,7 @@ $light_gray:#eee;
     font-size: 16px;
     color: $dark_gray;
     cursor: pointer;
+    /*控制用户能否选中元素，连续点击按钮，不会选中任何文本*/
     user-select: none;
   }
 

@@ -3,6 +3,10 @@
  */
 
 /**
+ * 检验是否是外部链接：http:、https:、mailto:、tel: 其中之一
+ *    https: 外部链接
+ *    mailto：邮箱
+ *    tel：电话
  * @param {string} path
  * @returns {Boolean}
  */
@@ -11,6 +15,7 @@ export function isExternal(path) {
 }
 
 /**
+ * 定义用户名有2个：admin 和 editor
  * @param {string} str
  * @returns {Boolean}
  */
